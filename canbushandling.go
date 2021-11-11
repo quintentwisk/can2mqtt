@@ -99,6 +99,12 @@ func canPublish(cf CAN.CANFrame) {
 	if dbg {
 		fmt.Println("canbushandler: sending CAN-Frame: ", cf)
 	}
+	if cf.ID > 2047 {
+		cf.ID |= (1 << 31)
+		if dbg {
+			fmt.Printf("canbushandler: toggling extended ID bit. \n")
+		}
+	}
 	err := cb.Write(&cf)
 	if err != nil {
 		if dbg {
