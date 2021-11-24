@@ -32,7 +32,7 @@ func canStart(iface string) {
 	}
 	var cf CAN.CANFrame
 	if dbg {
-		fmt.Printf("canbushadler: entering infinite loop\n")
+		fmt.Printf("canbushandler: entering infinite loop\n")
 	}
 	for {
 		cb.Read(&cf)
@@ -99,8 +99,10 @@ func canPublish(cf CAN.CANFrame) {
 	if dbg {
 		fmt.Println("canbushandler: sending CAN-Frame: ", cf)
 	}
-	if cf.ID > 2047 {
-		cf.ID |= (1 << 31)
+
+	// if canframe has an extended ID, toggle the EXTID bit
+	if cf.ID > 0x7FF {
+		cf.ID |= EXTENDED_FIELD
 		if dbg {
 			fmt.Printf("canbushandler: toggling extended ID bit. \n")
 		}
