@@ -102,7 +102,7 @@ func canPublish(cf CAN.CANFrame) {
 
 	// if canframe has an extended ID, toggle the EXTID bit
 	if cf.ID > 0x7FF {
-		cf.ID |= EXTENDED_FIELD
+		cf.ID |= 0x8000000
 		if dbg {
 			fmt.Printf("canbushandler: toggling extended ID bit. \n")
 		}
