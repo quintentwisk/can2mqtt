@@ -101,8 +101,8 @@ func canPublish(cf CAN.CANFrame) {
 	}
 
 	// if canframe has an extended ID, toggle the EXTID bit
-	if cf.ID > 0x7FF {
-		cf.ID |= uint32(0x8000000)
+	if cf.ID > 2047 {
+		cf.ID |= (1 << 31)
 		if dbg {
 			fmt.Printf("canbushandler: toggling extended ID bit. \n")
 		}
@@ -114,8 +114,8 @@ func canPublish(cf CAN.CANFrame) {
 		}
 		log.Fatal(err)
 	}
-	if cf.ID > 0x7FF {
-		cf.ID &= ^(uint32(0x8000000))
+	if cf.ID > 2047 {
+		cf.ID &= ^(1 << 31)
 	}
 
 	canSubscribe(cf.ID)
