@@ -115,7 +115,7 @@ func canPublish(cf CAN.CANFrame) {
 		log.Fatal(err)
 	}
 	if cf.ID > 0x7FF {
-		mask := ^(0x8000000)
+		uint32 mask := ^(0x8000000)
 		cf.ID &= mask
 	}
 
