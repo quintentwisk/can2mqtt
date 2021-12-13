@@ -114,5 +114,9 @@ func canPublish(cf CAN.CANFrame) {
 		}
 		log.Fatal(err)
 	}
+	if cf.ID > 0x7FF {
+		cf.ID &= ~(0x8000000)
+	}
+
 	canSubscribe(cf.ID)
 }
