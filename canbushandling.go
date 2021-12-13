@@ -95,7 +95,6 @@ func canUnsubscribe(id uint32) {
 
 // expects a CANFrame and sends it
 func canPublish(cf CAN.CANFrame) {
-	uint32 temp = cf.ID
 	canUnsubscribe(cf.ID)
 	if dbg {
 		fmt.Println("canbushandler: sending CAN-Frame: ", cf)
@@ -116,7 +115,8 @@ func canPublish(cf CAN.CANFrame) {
 		log.Fatal(err)
 	}
 	if cf.ID > 0x7FF {
-		cf.ID = temp
+		var mask uint32 := ^(0x8000000)
+		cf.ID &= mask
 	}
 
 	canSubscribe(cf.ID)
