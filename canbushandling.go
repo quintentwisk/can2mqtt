@@ -114,9 +114,9 @@ func canPublish(cf CAN.CANFrame) {
 		}
 		log.Fatal(err)
 	}
-	//if cf.ID > 2047 {
-	//	cf.ID &= ^(uint32(1 << 31))
-	//}
+	if cf.ID > 2047 {
+		cf.ID &= ^(uint32(1 << 31))
+	}
 
 	canSubscribe(cf.ID)
 }
